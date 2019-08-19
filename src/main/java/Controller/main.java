@@ -36,12 +36,12 @@ public class main {
                     Lobby.displaySavedHeros(heroesString);
                     hero = setup.pickHero(heroesString);
                     break;
-                }
-                else
+                } else
                     Lobby.invalidInput();
             }
             if (hero != null) {
                 int size = (hero.getLevel() - 1) * 5 + 10 - (hero.getLevel() % 2);
+                hero.setSize(size);
                 ArrayList<Enemy> villains = genVill(size, hero);
 
                 /////////////////////////////////////GAME START////////////////////////////
@@ -61,7 +61,10 @@ public class main {
                         Lobby.invalidInput();
                     for (int i = 0; i < villains.size(); i++) {
                         if (villains.get(i).getCharacterX() == hero.getCharacterX() && villains.get(i).getCharacterY() == hero.getCharacterY())
+                        {
                             villains = FightOrRun(hero, villains, heroesString, tempX, tempY);
+                            size = hero.getSize();
+                        }
                     }
                     DrawMap.draw(hero, villains);
                     if (hero.getCharacterX() == 0 || hero.getCharacterX() == size - 1 || hero.getCharacterY() == 0 || hero.getCharacterY() == size - 1) {
@@ -79,13 +82,13 @@ public class main {
         }
     }
 
-    private static ArrayList<Enemy> FightOrRun(Hero hero, ArrayList<Enemy> villains, String[] heroesString,int lastX,int lastY) {
+    private static ArrayList<Enemy> FightOrRun(Hero hero, ArrayList<Enemy> villains, String[] heroesString, int lastX, int lastY) {
         Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < villains.size(); i++) {
             if (villains.get(i).getCharacterX() == hero.getCharacterX() && villains.get(i).getCharacterY() == hero.getCharacterY()) {
                 Battle.fightOrRun(villains.get(i));
 
-                while(true) {
+                while (true) {
                     String input = scanner.nextLine();
                     if (input.equalsIgnoreCase("F")) {
                         Battle.fightStart();
@@ -102,8 +105,7 @@ public class main {
                             villains = battle(hero, villains, heroesString, i);
                         }
                         break;
-                    }
-                    else
+                    } else
                         Lobby.invalidInput();
                 }
             }
@@ -111,9 +113,9 @@ public class main {
         return villains;
     }
 
-    private static ArrayList<Enemy> battle(Hero hero, ArrayList<Enemy> villains,String[] heroesString, int i) {
+    private static ArrayList<Enemy> battle(Hero hero, ArrayList<Enemy> villains, String[] heroesString, int i) {
         Random randomNumGenerator = new Random();
-        int hit = ThreadLocalRandom.current().nextInt(0,1);
+        int hit = ThreadLocalRandom.current().nextInt(0, 1);
         while (true) {
             if (hero.getHitPoints() < 1) {
                 Battle.fightStats(villains.get(i), hero);
@@ -124,35 +126,33 @@ public class main {
                     hero.setDefense(0);
                 setup.saveHeroes(hero, heroesString);
                 System.exit(0);
-            }
-
-            else if (villains.get(i).getHitPoints() < 1) {
+            } else if (villains.get(i).getHitPoints() < 1) {
                 Battle.fightStats(villains.get(i), hero);
                 hero.setExperience(hero.getExperience() + 200);
                 if (hero.getDefense() <= 0)
                     hero.setDefense(0);
                 villains.remove(i);
-                Battle.artifacts();
                 int chance = randomNumGenerator.nextInt(100);
-                if ((chance % 2) == 0)
-                {
+                if ((chance % 2) == 0) {
+                    Battle.artifacts();
                     Scanner scanner = new Scanner(System.in);
                     String input;
                     while (!(input = scanner.nextLine()).equalsIgnoreCase("q")) {
-                        if (input.equalsIgnoreCase("1"))
-                        {hero.setHitPoints(hero.getHitPoints() + 200); break;}
-                        else if (input.equalsIgnoreCase("2"))
-                        {hero.setDefense(hero.getDefense() + 200); break;}
-                        else if (input.equalsIgnoreCase("3"))
-                        {hero.setAttack(hero.getAttack() + 200); break;}
-                        else
+                        if (input.equalsIgnoreCase("1")) {
+                            hero.setHitPoints(hero.getHitPoints() + 200);
+                            break;
+                        } else if (input.equalsIgnoreCase("2")) {
+                            hero.setDefense(hero.getDefense() + 200);
+                            break;
+                        } else if (input.equalsIgnoreCase("3")) {
+                            hero.setAttack(hero.getAttack() + 200);
+                            break;
+                        } else
                             Lobby.invalidInput();
                     }
                 }
                 break;
-            }
-
-            else {
+            } else {
                 if (hit == 1) {
                     if (hero.getDefense() > 0)
                         hero.setDefense(hero.getDefense() - villains.get(i).getAttack());
@@ -173,8 +173,11 @@ public class main {
             Battle.levelUp();
             hero.setLevel(hero.getLevel() + 1);
             int size = (hero.getLevel() - 1) * 5 + 10 - (hero.getLevel() % 2);
-            hero.setCharacterX(size/2);
-            hero.setCharacterY(size/2);
+            hero.setSize(size);
+            hero.setCharacterX(size / 2);
+            hero.setCharacterY(size / 2);
+            System.out.println("PosY" + hero.getCharacterY());
+            System.out.println("PosX" + hero.getCharacterX());
             villains = genVill(size, hero);
         }
         return villains;
@@ -186,7 +189,7 @@ public class main {
             Random randomNumGenerator = new Random();
             villains.add(new Enemy(randomNumGenerator.nextInt(size), randomNumGenerator.nextInt(size), ThreadLocalRandom.current().nextInt(hero.getAttack() - 300, hero.getAttack() - 250), ThreadLocalRandom.current().nextInt(hero.getDefense() - 90, hero.getDefense() - 75), 1000));
         }
-        return  villains;
+        return villains;
     }
 }
 

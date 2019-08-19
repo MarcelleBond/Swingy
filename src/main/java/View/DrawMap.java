@@ -21,11 +21,11 @@ public class DrawMap {
             for(int j = 0; j < mapSize; j++)
             {
                 if (player.getCharacterX() == j && player.getCharacterY() == i)
-                    System.out.print(player.getCharacterSymbol());
+                    System.out.print("["+player.getCharacterSymbol()+"]");
                 else if((check = checkVillains(villain, j, i)) != -1)
-                    System.out.print(villain.get(check).getCharacterSymbol());
+                    System.out.print("[" + villain.get(check).getCharacterSymbol() + "]");
                 else
-                    System.out.print('.');
+                    System.out.print("[.]");
             }
             System.out.print('\n');
         }

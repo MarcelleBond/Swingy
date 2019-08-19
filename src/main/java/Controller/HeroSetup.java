@@ -26,7 +26,7 @@ public class HeroSetup {
         while(!(classType = scanner.nextLine()).equalsIgnoreCase("q"))
         {
             if (classType.equalsIgnoreCase("1"))
-                return new Hero(mapSize/2, mapSize/2,'H', 500, 1500, 1000, name, "MORTAL", 1, 1000);
+                return new Hero(mapSize/2, mapSize/2,'H', 500, 1500, 1000, null, "MORTAL", 1, 1000);
             else if (classType.equalsIgnoreCase("2"))
                 return new Hero(mapSize/2, mapSize/2,'H', 800, 1800, 1000, name, "GOD", 1, 1000);
             else if (classType.equalsIgnoreCase("3"))

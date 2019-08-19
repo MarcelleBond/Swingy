@@ -3,7 +3,6 @@ package Model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 @Setter
 @Getter
 @NoArgsConstructor
@@ -12,7 +11,9 @@ public class Hero extends Character {
 
     private String heroName;
     private String heroClass;
+
     private int level;
+    private int size;
     private int experience;
 
    /* public String getHeroName() {
@@ -59,4 +60,5 @@ public class Hero extends Character {
     public String toString() {
         return heroName + " " + heroClass + " " + level + " " + experience + " " + getAttack() + " " + getDefense() + " " + getHitPoints();
     }
+
 }
