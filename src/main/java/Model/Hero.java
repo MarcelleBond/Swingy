@@ -2,13 +2,14 @@ package Model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
 
 public class Hero extends Character {
-
+    @NonNull
     private String heroName;
     private String heroClass;
 
