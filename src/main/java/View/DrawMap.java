@@ -25,7 +25,7 @@ public class DrawMap {
                 else if((check = checkVillains(villain, j, i)) != -1)
                     System.out.print("[" + villain.get(check).getCharacterSymbol() + "]");
                 else
-                    System.out.print("[.]");
+                    System.out.print("[ ]");
             }
             System.out.print('\n');
         }
